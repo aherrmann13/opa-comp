@@ -1,0 +1,29 @@
+{
+  "name": "opa-comp",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "npm run lint && tsc",
+    "test": "tsc && npm run unit-test",
+    "lint": "eslint --ext js --ext ts src/ test/",
+    "unit-test": "jest --coverage"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "path": "^0.12.7",
+    "upload-gphotos": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/jest": "^25.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
