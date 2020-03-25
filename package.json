@@ -2,19 +2,29 @@
   "name": "opa-comp",
   "version": "0.0.1",
   "scripts": {
-    "build": "npm run lint && tsc",
+    "build": "npm run lint && tsc && babel src --out-dir lib --extensions .ts,.tsx",
     "test": "tsc && npm run unit-test",
     "lint": "eslint --ext js --ext ts src/ test/",
     "unit-test": "jest --coverage"
   },
+  "bin": {
+    "google-photos": "./lib/google-photos/app.js"
+  },
   "dependencies": {
     "fs-extra": "^8.1.0",
     "path": "^0.12.7",
-    "upload-gphotos": "^4.2.1"
+    "upload-gphotos": "^4.2.1",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "@types/fs-extra": "^8.0.1",
     "@types/jest": "^25.1.2",
+    "@types/yargs": "^15.0.4",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/parser": "^2.19.0",
     "eslint": "^6.8.0",
