@@ -4,6 +4,7 @@
   "scripts": {
     "build": "npm run lint && tsc && babel src --out-dir lib --extensions .ts,.tsx",
     "test": "tsc && npm run unit-test",
+    "tsc": "tsc",
     "lint": "eslint --ext js --ext ts src/ test/",
     "unit-test": "jest --coverage"
   },
@@ -11,6 +12,7 @@
     "google-photos": "./lib/google-photos/app.js"
   },
   "dependencies": {
+    "@babel/runtime": "^7.9.2",
     "fs-extra": "^8.1.0",
     "path": "^0.12.7",
     "upload-gphotos": "^4.2.1",
@@ -20,6 +22,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
     "@types/fs-extra": "^8.0.1",

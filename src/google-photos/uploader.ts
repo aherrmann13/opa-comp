@@ -24,16 +24,23 @@ export class Uploader {
     return uploader;
   }
 
-  async upload(photo: Photo): Promise<void> {
-    const fileName = path.join(photo.path, photo.filename);
-    const file = await fs.stat(fileName);
-    await this.uploadInternal(fileName, file.size);
+  async upload(
+    photos: Photo[],
+    callback?: (photo: Photo, i: number) => void
+  ): Promise<void> {
+    // forEach does not handle async
+    for (let i = 0; i < photos.length; i++) {
+      await this.uploadInternal(photos[i]);
+      !!callback ? callback(photos[i], i) : undefined;
+    }
   }
 
-  private async uploadInternal(filename: string, size: number): Promise<void> {
+  private async uploadInternal(photo: Photo): Promise<void> {
+    const filename = path.join(photo.path, photo.filename);
+    const file = await fs.stat(filename);
     await this._googlePhotos.upload({
       stream: fs.createReadStream(filename),
-      size,
+      size: file.size,
       filename
     });
   }

@@ -37,30 +37,23 @@ describe('an Uploader', () => {
     });
   });
   describe('upload', () => {
-    const photo = { path: 'path', filename: 'filename' };
+    const photo0 = { path: 'path0', filename: 'filename0' };
+    const photo1 = { path: 'path1', filename: 'filename1' };
     const file = { size: 10 };
 
     it('should call stat on photo name', async () => {
       mockStat.mockImplementation(() => file);
       const uploader = await Uploader.initialize('u', 'p');
 
-      await uploader.upload(photo);
+      await uploader.upload([photo0, photo1]);
 
-      expect(mockStat).toHaveBeenCalledTimes(1);
-      expect(mockStat).toHaveBeenLastCalledWith(
-        path.join(photo.path, photo.filename)
+      expect(mockStat).toHaveBeenCalledTimes(2);
+      expect(mockStat).toHaveBeenCalledWith(
+        path.join(photo0.path, photo0.filename)
       );
-    });
-
-    it('should throw error on stat error', async () => {
-      const message = 'error';
-      mockStat.mockImplementation(() => {
-        throw new Error(message);
-      });
-
-      const uploader = await Uploader.initialize('u', 'p');
-
-      await expect(uploader.upload(photo)).rejects.toThrowError(message);
+      expect(mockStat).toHaveBeenCalledWith(
+        path.join(photo1.path, photo1.filename)
+      );
     });
 
     it('should upload to gphotos', async () => {
@@ -69,14 +62,32 @@ describe('an Uploader', () => {
       mockCreateReadStream.mockImplementation(() => readStream);
 
       const uploader = await Uploader.initialize('u', 'p');
-      await uploader.upload(photo);
+      await uploader.upload([photo0, photo1]);
 
-      expect(mockUpload).toHaveBeenCalledTimes(1);
+      expect(mockUpload).toHaveBeenCalledTimes(2);
       expect(mockUpload).toHaveBeenCalledWith({
         stream: readStream,
         size: file.size,
-        filename: path.join(photo.path, photo.filename)
+        filename: path.join(photo0.path, photo0.filename)
       });
+      expect(mockUpload).toHaveBeenCalledWith({
+        stream: readStream,
+        size: file.size,
+        filename: path.join(photo1.path, photo1.filename)
+      });
+    });
+
+    it('should execute callback for each photo', async () => {
+      mockStat.mockImplementation(() => file);
+      const callback = jest.fn();
+      mockCreateReadStream.mockImplementation(() => 'this is hacky');
+
+      const uploader = await Uploader.initialize('u', 'p');
+      await uploader.upload([photo0, photo1], callback);
+
+      expect(callback).toHaveBeenCalledTimes(2);
+      expect(callback).toHaveBeenCalledWith(photo0, 0);
+      expect(callback).toHaveBeenCalledWith(photo1, 1);
     });
   });
 });
