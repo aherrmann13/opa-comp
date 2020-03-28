@@ -6,25 +6,25 @@ import { findPhotos } from './photolocator';
 const argv = yargs.options({
   username: {
     alias: 'u',
-    defaultDescription: 'username of gmail acct',
+    description: 'username of gmail acct',
     demandOption: true,
     type: 'string'
   },
   password: {
     alias: 'p',
-    defaultDescription: 'username of gmail acct',
+    description: 'username of gmail acct',
     demandOption: true,
     type: 'string'
   },
   startingpath: {
-    alias: 'sp',
-    defaultDescription: 'starting path to search for photos',
+    alias: 'p',
+    description: 'starting path to search for photos',
     demandOption: true,
     type: 'string'
   },
   dryrun: {
-    alias: 'dr',
-    defaultDescription: 'prints file name without upload',
+    alias: 'd',
+    description: 'prints file name without upload',
     boolean: true,
     default: false
   }
