@@ -15,19 +15,13 @@ export class Uploader {
     return this._googlePhotos.signin({ username, password });
   }
 
-  static async initialize(
-    username: string,
-    password: string
-  ): Promise<Uploader> {
+  static async initialize(username: string, password: string): Promise<Uploader> {
     const uploader = new Uploader();
     await uploader.signIn(username, password);
     return uploader;
   }
 
-  async upload(
-    photos: Photo[],
-    callback?: (photo: Photo, i: number) => void
-  ): Promise<void> {
+  async upload(photos: Photo[], callback?: (photo: Photo, i: number) => void): Promise<void> {
     // forEach does not handle async
     for (let i = 0; i < photos.length; i++) {
       await this.uploadInternal(photos[i]);

@@ -17,7 +17,7 @@ const argv = yargs.options({
     type: 'string'
   },
   startingpath: {
-    alias: 'p',
+    alias: 's',
     description: 'starting path to search for photos',
     demandOption: true,
     type: 'string'

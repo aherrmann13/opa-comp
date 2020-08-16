@@ -1,13 +1,5 @@
-import {
-  mockSignIn,
-  mockUpload,
-  reset as gphotosReset
-} from '../__mocks__/upload-gphotos';
-import {
-  mockStat,
-  reset as fsReset,
-  mockCreateReadStream
-} from '../__mocks__/fs-extra';
+import { mockSignIn, mockUpload, reset as gphotosReset } from '../__mocks__/upload-gphotos';
+import { mockStat, reset as fsReset, mockCreateReadStream } from '../__mocks__/fs-extra';
 
 import * as path from 'path';
 
@@ -48,12 +40,8 @@ describe('an Uploader', () => {
       await uploader.upload([photo0, photo1]);
 
       expect(mockStat).toHaveBeenCalledTimes(2);
-      expect(mockStat).toHaveBeenCalledWith(
-        path.join(photo0.path, photo0.filename)
-      );
-      expect(mockStat).toHaveBeenCalledWith(
-        path.join(photo1.path, photo1.filename)
-      );
+      expect(mockStat).toHaveBeenCalledWith(path.join(photo0.path, photo0.filename));
+      expect(mockStat).toHaveBeenCalledWith(path.join(photo1.path, photo1.filename));
     });
 
     it('should upload to gphotos', async () => {
