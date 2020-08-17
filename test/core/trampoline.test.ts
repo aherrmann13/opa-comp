@@ -38,7 +38,7 @@ describe('More', () => {
       const returnVal = 'returnVal';
       const fn = jest.fn().mockReturnValue(returnVal);
 
-      const result = new More(() => new Done('some val')).map(a => fn(a));
+      new More(() => new Done('some val')).map(a => fn(a));
 
       expect(fn).not.toHaveBeenCalled();
     });
@@ -60,7 +60,7 @@ describe('More', () => {
       const returnVal = new More(() => new Done('returnVal'));
       const fn = jest.fn().mockReturnValue(returnVal);
 
-      const result = new More(() => new Done('some val')).flatMap(a => fn(a));
+      new More(() => new Done('some val')).flatMap(a => fn(a));
 
       expect(fn).not.toHaveBeenCalled();
     });

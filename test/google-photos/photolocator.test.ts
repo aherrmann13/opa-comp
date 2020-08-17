@@ -1,4 +1,4 @@
-import { mockReaddirSync, reset } from '../__mocks__/fs-extra';
+import { mockReaddirSync } from '../__mocks__/fs-extra';
 import * as path from 'path';
 import { Dirent } from 'fs-extra';
 
@@ -17,16 +17,16 @@ import { findPhotos } from '../../src/google-photos/photolocator';
  *             | --- doc1.xlsx
  */
 
-const photo0 = { isDirectory: () => false, isFile: () => true, name: 'photo0.jpeg' } as Dirent;
-const photo1 = { isDirectory: () => false, isFile: () => true, name: 'photo1.png' } as Dirent;
-const photo2 = { isDirectory: () => false, isFile: () => true, name: 'photo2.gif' } as Dirent;
-const photo3 = { isDirectory: () => false, isFile: () => true, name: 'photo3.tiff' } as Dirent;
-const doc0 = { isDirectory: () => false, isFile: () => true, name: 'doc0.docx' } as Dirent;
-const doc1 = { isDirectory: () => false, isFile: () => true, name: 'doc1.xlsx' } as Dirent;
-const dir0 = { isDirectory: () => true, isFile: () => false, name: 'dir0' };
-const dir1 = { isDirectory: () => true, isFile: () => false, name: 'dir1' };
-const dir2 = { isDirectory: () => true, isFile: () => false, name: 'dir2' };
-const dir3 = { isDirectory: () => true, isFile: () => false, name: 'dir3' };
+const photo0 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'photo0.jpeg' } as Dirent;
+const photo1 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'photo1.png' } as Dirent;
+const photo2 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'photo2.gif' } as Dirent;
+const photo3 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'photo3.tiff' } as Dirent;
+const doc0 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'doc0.docx' } as Dirent;
+const doc1 = { isDirectory: (): boolean => false, isFile: (): boolean => true, name: 'doc1.xlsx' } as Dirent;
+const dir0 = { isDirectory: (): boolean => true, isFile: (): boolean => false, name: 'dir0' };
+const dir1 = { isDirectory: (): boolean => true, isFile: (): boolean => false, name: 'dir1' };
+const dir2 = { isDirectory: (): boolean => true, isFile: (): boolean => false, name: 'dir2' };
+const dir3 = { isDirectory: (): boolean => true, isFile: (): boolean => false, name: 'dir3' };
 
 mockReaddirSync.mockImplementation(dirName => {
   switch (dirName) {
