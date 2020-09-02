@@ -6,36 +6,47 @@ import { Photo } from './photo';
 
 export class Uploader {
   private _googlePhotos: GPhotos;
+  private _batch: number;
 
-  private constructor() {
+  private constructor(batch: number) {
     this._googlePhotos = new GPhotos();
+    this._batch = batch;
   }
 
   private signIn(username: string, password: string): Promise<void> {
     return this._googlePhotos.signin({ username, password });
   }
 
-  static async initialize(username: string, password: string): Promise<Uploader> {
-    const uploader = new Uploader();
+  static async initialize(username: string, password: string, batch: number): Promise<Uploader> {
+    const uploader = new Uploader(batch);
     await uploader.signIn(username, password);
     return uploader;
   }
 
-  async upload(photos: Photo[], callback?: (photo: Photo, i: number) => void): Promise<void> {
+  async upload(photos: Photo[], callback?: (photo: Photo) => void): Promise<void> {
     // forEach does not handle async
-    for (let i = 0; i < photos.length; i++) {
-      await this.uploadInternal(photos[i]);
-      !!callback ? callback(photos[i], i) : undefined;
+    for (let i = 0; i < photos.length; i += this._batch) {
+      await Promise.all(
+        photos
+          .slice(i, i + this._batch)
+          .map(p => this.uploadInternal(p).then(() => (!!callback ? callback(p) : undefined)))
+      );
     }
   }
 
   private async uploadInternal(photo: Photo): Promise<void> {
     const filename = path.join(photo.path, photo.filename);
     const file = await fs.stat(filename);
-    await this._googlePhotos.upload({
-      stream: fs.createReadStream(filename),
-      size: file.size,
-      filename
-    });
+    try {
+      file.size > 0
+        ? await this._googlePhotos.upload({
+            stream: fs.createReadStream(filename),
+            size: file.size,
+            filename: photo.filename
+          })
+        : Promise.resolve();
+    } catch {
+      return Promise.resolve();
+    }
   }
 }

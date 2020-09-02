@@ -2,6 +2,7 @@
 import yargs from 'yargs';
 import { Uploader } from './uploader';
 import { findPhotos } from './photolocator';
+import * as path from 'path';
 
 const argv = yargs.options({
   username: {
@@ -22,6 +23,12 @@ const argv = yargs.options({
     demandOption: true,
     type: 'string'
   },
+  batch: {
+    alias: 'b',
+    description: 'the amount of photos to upload at once',
+    default: 10,
+    type: 'number'
+  },
   dryrun: {
     alias: 'd',
     description: 'prints file name without upload',
@@ -31,10 +38,11 @@ const argv = yargs.options({
 }).argv;
 
 if (!argv.dryrun) {
-  Uploader.initialize(argv.username, argv.password).then(uploader => {
+  Uploader.initialize(argv.username, argv.password, argv.batch).then(uploader => {
+    const photos = findPhotos(argv.startingpath);
+    let done = 1;
     uploader
-      .upload(findPhotos(argv.startingpath))
-      .then(() => console.log('completed'))
+      .upload(photos, p => console.log(`${done++}/${photos.length}: ${path.join(p.path, p.filename)}`))
       .catch(e => console.error(e));
   });
 } else {

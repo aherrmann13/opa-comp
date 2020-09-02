@@ -103,6 +103,7 @@ running `google-photos --help will show all options`
 | `--username {username}` | `-u`  | [required] username for the google acct                     |
 | `--password {password}` | `-p`  | [required] password for the google acct                     |
 | `--startingpath {path}` | `-s`  | [required] path to start looking for photos                 |
+| `--batch`               | `-b`  | sets the number of photos uploaded at once                  |
 | `--dryrun`              | `-d`  | indicates the file names should be printed and not uploaded |
 
 for example
